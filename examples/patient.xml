@@ -1,0 +1,16 @@
+<Patient id="12345">
+  <Identifier>12345</Identifier>
+  <Diagnosis>Type 2 diabetes with hypertension</Diagnosis>
+  <Treatments>
+    <Treatment name="Metformin" />
+    <Treatment name="Lifestyle Counseling" />
+    <Treatment name="ACE Inhibitor" />
+  </Treatments>
+  <Contraindications>
+    <Contraindication>None</Contraindication>
+  </Contraindications>
+  <Meta>
+    <Physician>Dr. Example</Physician>
+    <VisitDate>2024-04-01</VisitDate>
+  </Meta>
+</Patient>

@@ -1,0 +1,16 @@
+[
+  {
+    "diagnosis_keywords": ["type", "2", "diabetes"],
+    "required_interventions": ["metformin", "lifestyle counseling"],
+    "optional_interventions": ["dpp-4 inhibitor", "glp-1 agonist"],
+    "contraindications": ["sulfonylurea"],
+    "notes": "Ensure quarterly HbA1c monitoring."
+  },
+  {
+    "diagnosis_keywords": ["hypertension"],
+    "required_interventions": ["ace inhibitor"],
+    "optional_interventions": ["beta blocker"],
+    "contraindications": ["nsaid"],
+    "notes": "Target blood pressure < 130/80."
+  }
+]
