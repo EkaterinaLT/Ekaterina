@@ -77,3 +77,48 @@ def load_profile(path: str | Path) -> Dict[str, Any]:
         "notes": data.get("notes"),
     }
     return profile
+
+
+def merge_kr_with_profile(
+    kr_data: Mapping[str, Any] | None,
+    profile: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Combine an extracted KR payload with a local profile snapshot.
+
+    The helper fills in missing sections (including ``diagnosis_scope`` and
+    criteria arrays) from the provided ``profile`` while preserving any data
+    already produced by the extractor.
+
+    Parameters
+    ----------
+    kr_data:
+        Raw clinical guideline data returned by an LLM extractor.  The mapping
+        may omit fields or contain ``None`` values.
+    profile:
+        A validated profile (as returned by :func:`load_profile`).
+    """
+
+    if not profile:
+        raise ValueError("'profile' must be a non-empty mapping")
+
+    kr_data = kr_data or {}
+    profile_criteria = _coerce_criteria(profile.get("criteria"))
+    kr_criteria = _coerce_criteria(kr_data.get("criteria"))
+
+    merged_criteria: Dict[str, list] = {}
+    for key in sorted(set(profile_criteria) | set(kr_criteria)):
+        base = kr_criteria.get(key)
+        if base is None:
+            base = profile_criteria.get(key, [])
+        merged_criteria[key] = list(base)
+
+    diagnosis_scope = kr_data.get("diagnosis_scope") or profile.get(
+        "diagnosis_scope", ""
+    )
+    notes = kr_data.get("notes") or profile.get("notes")
+
+    return {
+        "diagnosis_scope": diagnosis_scope,
+        "criteria": merged_criteria,
+        "notes": notes,
+    }
